@@ -5,18 +5,34 @@
     </div>
     <div class="header-input">
       <span class="iconfont">&#xe632;</span>
-      输入城市/景点/游玩主题
+      <input class="input" placeholder="输入城市/景点/游玩主题" :value="inputValue" @keyup.enter="search"/>
     </div>
-    <div class="header-right">
-      城市
-      <span class="iconfont arrow-icon">&#xe64a;</span>
-    </div>
+    <router-link to="/city">
+      <div class="header-right">
+        {{ this.city }}
+        <span class="iconfont arrow-icon">&#xe64a;</span>
+      </div>
+    </router-link>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'HomeHeader'
+  name: 'HomeHeader',
+  computed: {
+    ...mapState(['city'])
+  },
+  data () {
+    return {
+      inputValue: ''
+    }
+  },
+  methods: {
+    search () {
+      this.$router.push({path: '/', params: {username: this.inputValue}})
+    }
+  }
 }
 </script>
 
@@ -24,9 +40,10 @@ export default {
   @import '~styles/varibles.styl'
   .header
     display: flex
-    line-height: .86rem
+    line-height: $headerHeight
     background: $bgColor
     color: #fff
+    touch-action: none
     .header-left
       width: .64rem
       float: left
@@ -43,10 +60,20 @@ export default {
       background: #fff
       border-radius: .1rem
       color: #ccc
+      .input
+        flex: 1
+        height: .52rem
+        line-height: .52rem
+        background: #fff
+        border-radius: .1rem
+        color: #404040
+        width 4rem
     .header-right
-      width: 1.24rem
+      min-width: 1.04rem
+      padding 0 .1rem
       float: right
       text-align: center
+      color #fff
       .arrow-icon
         margin-left: -.04rem
         font-size: .24rem
